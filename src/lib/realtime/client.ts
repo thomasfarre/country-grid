@@ -194,7 +194,8 @@ const createSupabaseConnection = async ({
 
   await channel.subscribe(async (status) => {
     if (status === "SUBSCRIBED") {
-      await channel.track<PresenceMeta>({ nickname, clientId, joinedAt: Date.now() });
+      const meta: PresenceMeta = { nickname, clientId, joinedAt: Date.now() };
+      await channel.track(meta);
     }
   });
 
