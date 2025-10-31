@@ -6,9 +6,13 @@ import {
   joinRoom,
   type ClientEnvelope,
   type PresenceMeta,
-  type RoomConnection
+  type RoomConnection,
 } from "../lib/realtime/client";
-import { createOrchestrator, type OrchestratorUpdate, type RoomOrchestrator } from "../lib/game/orchestrator";
+import {
+  createOrchestrator,
+  type OrchestratorUpdate,
+  type RoomOrchestrator,
+} from "../lib/game/orchestrator";
 import type { ClientMsg, GameState, ServerMsg } from "../lib/game/types";
 
 const CLIENT_ID_STORAGE_KEY = "country-grid:clientId";
@@ -64,9 +68,11 @@ export const useRoom = (roomId: string, nickname: string): RoomHookState => {
   const clientId = useMemo(() => getPersistentClientId(), []);
 
   const [gameState, setGameState] = useState<GameState | null>(null);
-  const [results, setResults] = useState<Array<{ id: string; nickname: string; score: number }> | null>(
-    null
-  );
+  const [results, setResults] = useState<Array<{
+    id: string;
+    nickname: string;
+    score: number;
+  }> | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [presenceState, setPresenceState] = useState<Record<string, PresenceMeta[]>>({});
   const connectionRef = useRef<RoomConnection | null>(null);
@@ -74,6 +80,7 @@ export const useRoom = (roomId: string, nickname: string): RoomHookState => {
   const pendingMessagesRef = useRef<ClientEnvelope[]>([]);
   const seedRef = useRef<string | null>(null);
   const isHostRef = useRef(false);
+  const hasSelfJoinedRef = useRef(false);
 
   const hostId = useMemo(() => computeHostId(presenceState), [presenceState]);
   const isHost = hostId !== null && hostId === clientId;
@@ -90,20 +97,17 @@ export const useRoom = (roomId: string, nickname: string): RoomHookState => {
         roomId,
         seed,
         countries: COUNTRIES,
-        initialState: gameState ?? undefined
+        initialState: gameState ?? undefined,
       });
     }
     return orchestratorRef.current;
   }, [gameState, roomId]);
 
-  const sendServerMessage = useCallback(
-    async (message: ServerMsg) => {
-      const connection = connectionRef.current;
-      if (!connection) return;
-      await connection.sendServerMessage(message);
-    },
-    []
-  );
+  const sendServerMessage = useCallback(async (message: ServerMsg) => {
+    const connection = connectionRef.current;
+    if (!connection) return;
+    await connection.sendServerMessage(message);
+  }, []);
 
   const processUpdate = useCallback(
     async (update: OrchestratorUpdate | undefined) => {
@@ -121,7 +125,7 @@ export const useRoom = (roomId: string, nickname: string): RoomHookState => {
         await sendServerMessage({ t: "RESULTS", scores: update.results });
       }
     },
-    [sendServerMessage]
+    [sendServerMessage],
   );
 
   const handleServerMessage = useCallback((message: ServerMsg) => {
@@ -161,7 +165,7 @@ export const useRoom = (roomId: string, nickname: string): RoomHookState => {
       const update = orchestrator.applyMessage(envelope.message, envelope.clientId);
       void processUpdate(update);
     },
-    [clientId, ensureOrchestrator, processUpdate]
+    [clientId, ensureOrchestrator, processUpdate],
   );
 
   const handlePresenceChange = useCallback((state: Record<string, PresenceMeta[]>) => {
@@ -180,7 +184,7 @@ export const useRoom = (roomId: string, nickname: string): RoomHookState => {
           nickname,
           onServerMessage: handleServerMessage,
           onClientMessage: handleClientMessage,
-          onPresenceChange: handlePresenceChange
+          onPresenceChange: handlePresenceChange,
         });
         if (cancelled) {
           await connection.leave();
@@ -229,6 +233,7 @@ export const useRoom = (roomId: string, nickname: string): RoomHookState => {
     if (!isHost) {
       hasBootstrappedHostRef.current = false;
       orchestratorRef.current = null;
+      hasSelfJoinedRef.current = false;
       return;
     }
     const orchestrator = ensureOrchestrator();
@@ -249,16 +254,35 @@ export const useRoom = (roomId: string, nickname: string): RoomHookState => {
     }
   }, [ensureOrchestrator, isHost, processUpdate]);
 
-  const sendClientMessage = useCallback(
-    async (message: ClientMsg) => {
-      const connection = connectionRef.current;
-      if (!connection) {
-        return;
-      }
-      await connection.sendClientMessage(message);
-    },
-    []
-  );
+  useEffect(() => {
+    if (!isHost) {
+      return;
+    }
+    const orchestrator = ensureOrchestrator();
+    if (!orchestrator) {
+      return;
+    }
+    if (hasSelfJoinedRef.current) {
+      return;
+    }
+    const state = orchestrator.getState();
+    const alreadyJoined = state.players.some((player) => player.id === clientId);
+    if (alreadyJoined) {
+      hasSelfJoinedRef.current = true;
+      return;
+    }
+    const update = orchestrator.applyMessage({ t: "JOIN", nickname }, clientId);
+    void processUpdate(update);
+    hasSelfJoinedRef.current = true;
+  }, [clientId, ensureOrchestrator, isHost, nickname, processUpdate]);
+
+  const sendClientMessage = useCallback(async (message: ClientMsg) => {
+    const connection = connectionRef.current;
+    if (!connection) {
+      return;
+    }
+    await connection.sendClientMessage(message);
+  }, []);
 
   const place = useCallback(
     async (slotIndex: number) => {
@@ -271,13 +295,16 @@ export const useRoom = (roomId: string, nickname: string): RoomHookState => {
         if (!orchestrator) {
           return;
         }
-        const update = orchestrator.applyMessage({ t: "PLACE", country: country.code, slot: slotIndex }, clientId);
+        const update = orchestrator.applyMessage(
+          { t: "PLACE", country: country.code, slot: slotIndex },
+          clientId,
+        );
         await processUpdate(update);
         return;
       }
       await sendClientMessage({ t: "PLACE", country: country.code, slot: slotIndex });
     },
-    [clientId, ensureOrchestrator, gameState?.currentCountry, processUpdate, sendClientMessage]
+    [clientId, ensureOrchestrator, gameState?.currentCountry, processUpdate, sendClientMessage],
   );
 
   const pass = useCallback(async () => {
@@ -298,7 +325,7 @@ export const useRoom = (roomId: string, nickname: string): RoomHookState => {
     if (process.env.NEXT_PUBLIC_E2E !== "true") return;
     (window as unknown as Record<string, unknown>).__countryGrid__ = {
       state: gameState,
-      results
+      results,
     };
   }, [gameState, results]);
 
@@ -310,6 +337,6 @@ export const useRoom = (roomId: string, nickname: string): RoomHookState => {
     hostId,
     place,
     pass,
-    clientId
+    clientId,
   };
 };

@@ -1,4 +1,4 @@
-import type { BoardSlot, Country, Rule } from "./types";
+import type { BoardSlot, Country, Rule, RuleHint } from "./types";
 import { createRNG } from "../rng";
 
 export type RuleKind = "equality" | "comparison" | "category";
@@ -10,6 +10,7 @@ type RuleBlueprint = {
   primaryCountry: string;
   predicate: (country: Country) => boolean;
   conflictCodes: string[];
+  hint?: RuleHint;
 };
 
 type CategoryBlueprint = RuleBlueprint & { kind: "category" };
@@ -21,7 +22,7 @@ const comparisonBlueprints: RuleBlueprint[] = [
     kind: "comparison",
     primaryCountry: "BR",
     predicate: (country) => country.population > 100_000_000,
-    conflictCodes: ["BR"]
+    conflictCodes: ["BR"],
   },
   {
     id: "gdp-lt-200b",
@@ -29,8 +30,8 @@ const comparisonBlueprints: RuleBlueprint[] = [
     kind: "comparison",
     primaryCountry: "KE",
     predicate: (country) => country.gdp_usd < 200_000_000_000,
-    conflictCodes: ["KE"]
-  }
+    conflictCodes: ["KE"],
+  },
 ];
 
 const categoryBlueprint: CategoryBlueprint = {
@@ -39,7 +40,7 @@ const categoryBlueprint: CategoryBlueprint = {
   kind: "category",
   primaryCountry: "FR",
   predicate: (country) => country.continent === "Europe",
-  conflictCodes: ["FR", "DE", "GB"]
+  conflictCodes: ["FR", "DE", "GB"],
 };
 
 const equalityBlueprints: RuleBlueprint[] = [
@@ -49,7 +50,7 @@ const equalityBlueprints: RuleBlueprint[] = [
     kind: "equality",
     primaryCountry: "PE",
     predicate: (country) => country.capital === "Lima",
-    conflictCodes: ["PE"]
+    conflictCodes: ["PE"],
   },
   {
     id: "capital-bogota",
@@ -57,7 +58,7 @@ const equalityBlueprints: RuleBlueprint[] = [
     kind: "equality",
     primaryCountry: "CO",
     predicate: (country) => country.capital === "Bogotá",
-    conflictCodes: ["CO"]
+    conflictCodes: ["CO"],
   },
   {
     id: "capital-santiago",
@@ -65,7 +66,7 @@ const equalityBlueprints: RuleBlueprint[] = [
     kind: "equality",
     primaryCountry: "CL",
     predicate: (country) => country.capital === "Santiago",
-    conflictCodes: ["CL"]
+    conflictCodes: ["CL"],
   },
   {
     id: "capital-buenos-aires",
@@ -73,7 +74,7 @@ const equalityBlueprints: RuleBlueprint[] = [
     kind: "equality",
     primaryCountry: "AR",
     predicate: (country) => country.capital === "Buenos Aires",
-    conflictCodes: ["AR"]
+    conflictCodes: ["AR"],
   },
   {
     id: "capital-ottawa",
@@ -81,7 +82,7 @@ const equalityBlueprints: RuleBlueprint[] = [
     kind: "equality",
     primaryCountry: "CA",
     predicate: (country) => country.capital === "Ottawa",
-    conflictCodes: ["CA"]
+    conflictCodes: ["CA"],
   },
   {
     id: "capital-canberra",
@@ -89,7 +90,7 @@ const equalityBlueprints: RuleBlueprint[] = [
     kind: "equality",
     primaryCountry: "AU",
     predicate: (country) => country.capital === "Canberra",
-    conflictCodes: ["AU"]
+    conflictCodes: ["AU"],
   },
   {
     id: "capital-mexico-city",
@@ -97,7 +98,7 @@ const equalityBlueprints: RuleBlueprint[] = [
     kind: "equality",
     primaryCountry: "MX",
     predicate: (country) => country.capital === "Mexico City",
-    conflictCodes: ["MX"]
+    conflictCodes: ["MX"],
   },
   {
     id: "capital-wellington",
@@ -105,7 +106,7 @@ const equalityBlueprints: RuleBlueprint[] = [
     kind: "equality",
     primaryCountry: "NZ",
     predicate: (country) => country.capital === "Wellington",
-    conflictCodes: ["NZ"]
+    conflictCodes: ["NZ"],
   },
   {
     id: "capital-seoul",
@@ -113,7 +114,7 @@ const equalityBlueprints: RuleBlueprint[] = [
     kind: "equality",
     primaryCountry: "KR",
     predicate: (country) => country.capital === "Seoul",
-    conflictCodes: ["KR"]
+    conflictCodes: ["KR"],
   },
   {
     id: "capital-bangkok",
@@ -121,7 +122,7 @@ const equalityBlueprints: RuleBlueprint[] = [
     kind: "equality",
     primaryCountry: "TH",
     predicate: (country) => country.capital === "Bangkok",
-    conflictCodes: ["TH"]
+    conflictCodes: ["TH"],
   },
   {
     id: "capital-hanoi",
@@ -129,7 +130,7 @@ const equalityBlueprints: RuleBlueprint[] = [
     kind: "equality",
     primaryCountry: "VN",
     predicate: (country) => country.capital === "Hanoi",
-    conflictCodes: ["VN"]
+    conflictCodes: ["VN"],
   },
   {
     id: "capital-manila",
@@ -137,7 +138,7 @@ const equalityBlueprints: RuleBlueprint[] = [
     kind: "equality",
     primaryCountry: "PH",
     predicate: (country) => country.capital === "Manila",
-    conflictCodes: ["PH"]
+    conflictCodes: ["PH"],
   },
   {
     id: "capital-kuala-lumpur",
@@ -145,7 +146,7 @@ const equalityBlueprints: RuleBlueprint[] = [
     kind: "equality",
     primaryCountry: "MY",
     predicate: (country) => country.capital === "Kuala Lumpur",
-    conflictCodes: ["MY"]
+    conflictCodes: ["MY"],
   },
   {
     id: "capital-riyadh",
@@ -153,7 +154,7 @@ const equalityBlueprints: RuleBlueprint[] = [
     kind: "equality",
     primaryCountry: "SA",
     predicate: (country) => country.capital === "Riyadh",
-    conflictCodes: ["SA"]
+    conflictCodes: ["SA"],
   },
   {
     id: "capital-abu-dhabi",
@@ -161,7 +162,7 @@ const equalityBlueprints: RuleBlueprint[] = [
     kind: "equality",
     primaryCountry: "AE",
     predicate: (country) => country.capital === "Abu Dhabi",
-    conflictCodes: ["AE"]
+    conflictCodes: ["AE"],
   },
   {
     id: "capital-cairo",
@@ -169,7 +170,7 @@ const equalityBlueprints: RuleBlueprint[] = [
     kind: "equality",
     primaryCountry: "EG",
     predicate: (country) => country.capital === "Cairo",
-    conflictCodes: ["EG"]
+    conflictCodes: ["EG"],
   },
   {
     id: "capital-rabat",
@@ -177,7 +178,7 @@ const equalityBlueprints: RuleBlueprint[] = [
     kind: "equality",
     primaryCountry: "MA",
     predicate: (country) => country.capital === "Rabat",
-    conflictCodes: ["MA"]
+    conflictCodes: ["MA"],
   },
   {
     id: "capital-accra",
@@ -185,7 +186,7 @@ const equalityBlueprints: RuleBlueprint[] = [
     kind: "equality",
     primaryCountry: "GH",
     predicate: (country) => country.capital === "Accra",
-    conflictCodes: ["GH"]
+    conflictCodes: ["GH"],
   },
   {
     id: "capital-pretoria",
@@ -193,7 +194,7 @@ const equalityBlueprints: RuleBlueprint[] = [
     kind: "equality",
     primaryCountry: "ZA",
     predicate: (country) => country.capital === "Pretoria",
-    conflictCodes: ["ZA"]
+    conflictCodes: ["ZA"],
   },
   {
     id: "capital-algiers",
@@ -201,7 +202,7 @@ const equalityBlueprints: RuleBlueprint[] = [
     kind: "equality",
     primaryCountry: "DZ",
     predicate: (country) => country.capital === "Algiers",
-    conflictCodes: ["DZ"]
+    conflictCodes: ["DZ"],
   },
   {
     id: "capital-baghdad",
@@ -209,7 +210,7 @@ const equalityBlueprints: RuleBlueprint[] = [
     kind: "equality",
     primaryCountry: "IQ",
     predicate: (country) => country.capital === "Baghdad",
-    conflictCodes: ["IQ"]
+    conflictCodes: ["IQ"],
   },
   {
     id: "capital-addis-ababa",
@@ -217,7 +218,7 @@ const equalityBlueprints: RuleBlueprint[] = [
     kind: "equality",
     primaryCountry: "ET",
     predicate: (country) => country.capital === "Addis Ababa",
-    conflictCodes: ["ET"]
+    conflictCodes: ["ET"],
   },
   {
     id: "capital-dodoma",
@@ -225,7 +226,7 @@ const equalityBlueprints: RuleBlueprint[] = [
     kind: "equality",
     primaryCountry: "TZ",
     predicate: (country) => country.capital === "Dodoma",
-    conflictCodes: ["TZ"]
+    conflictCodes: ["TZ"],
   },
   {
     id: "capital-freetown",
@@ -233,7 +234,7 @@ const equalityBlueprints: RuleBlueprint[] = [
     kind: "equality",
     primaryCountry: "SL",
     predicate: (country) => country.capital === "Freetown",
-    conflictCodes: ["SL"]
+    conflictCodes: ["SL"],
   },
   {
     id: "capital-muscat",
@@ -241,7 +242,7 @@ const equalityBlueprints: RuleBlueprint[] = [
     kind: "equality",
     primaryCountry: "OM",
     predicate: (country) => country.capital === "Muscat",
-    conflictCodes: ["OM"]
+    conflictCodes: ["OM"],
   },
   {
     id: "capital-montevideo",
@@ -249,8 +250,47 @@ const equalityBlueprints: RuleBlueprint[] = [
     kind: "equality",
     primaryCountry: "UY",
     predicate: (country) => country.capital === "Montevideo",
-    conflictCodes: ["UY"]
-  }
+    conflictCodes: ["UY"],
+  },
+];
+
+const flagBlueprints: RuleBlueprint[] = [
+  {
+    id: "flag-canada",
+    label: "Associer au drapeau",
+    kind: "equality",
+    primaryCountry: "CA",
+    predicate: (country) => country.code === "CA",
+    conflictCodes: ["CA"],
+    hint: { type: "flag", code: "CA" },
+  },
+  {
+    id: "flag-australia",
+    label: "Associer au drapeau",
+    kind: "equality",
+    primaryCountry: "AU",
+    predicate: (country) => country.code === "AU",
+    conflictCodes: ["AU"],
+    hint: { type: "flag", code: "AU" },
+  },
+  {
+    id: "flag-chile",
+    label: "Associer au drapeau",
+    kind: "equality",
+    primaryCountry: "CL",
+    predicate: (country) => country.code === "CL",
+    conflictCodes: ["CL"],
+    hint: { type: "flag", code: "CL" },
+  },
+  {
+    id: "flag-uruguay",
+    label: "Associer au drapeau",
+    kind: "equality",
+    primaryCountry: "UY",
+    predicate: (country) => country.code === "UY",
+    conflictCodes: ["UY"],
+    hint: { type: "flag", code: "UY" },
+  },
 ];
 
 export type GeneratedBoard = {
@@ -260,7 +300,10 @@ export type GeneratedBoard = {
   assignedMatches: Record<string, string>;
 };
 
-const REQUIRED_EQUALITY_COUNT = 7;
+const BOARD_SIZE = 10;
+const REQUIRED_FLAG_COUNT = 1;
+const REQUIRED_EQUALITY_COUNT =
+  BOARD_SIZE - (comparisonBlueprints.length + REQUIRED_FLAG_COUNT + 1);
 
 export const generateBoard = (seed: string, countries: Country[]): GeneratedBoard => {
   const rng = createRNG(`${seed}-rules`);
@@ -299,6 +342,22 @@ export const generateBoard = (seed: string, countries: Country[]): GeneratedBoar
   const selectedEuropean = europeanCandidates[rng.nextInt(europeanCandidates.length)];
   assignedMatches[categoryBlueprint.id] = selectedEuropean;
 
+  const availableFlags = flagBlueprints.filter(
+    (blueprint) => !blueprint.conflictCodes.some((code) => usedCodes.has(code)),
+  );
+
+  if (availableFlags.length < REQUIRED_FLAG_COUNT) {
+    throw new Error("Not enough flag rules available to generate board");
+  }
+
+  const selectedFlags = rng.shuffle(availableFlags).slice(0, REQUIRED_FLAG_COUNT);
+  selectedFlags.forEach((blueprint) => {
+    selectedBlueprints.push(blueprint);
+    blueprint.conflictCodes.forEach((code) => usedCodes.add(code));
+    ruleMatches[blueprint.id] = [...blueprint.conflictCodes];
+    assignedMatches[blueprint.id] = blueprint.primaryCountry;
+  });
+
   // Choose equality rules to reach required board size (10)
   const availableEquality = equalityBlueprints.filter((blueprint) => {
     if (blueprint.conflictCodes.some((code) => usedCodes.has(code))) {
@@ -329,7 +388,8 @@ export const generateBoard = (seed: string, countries: Country[]): GeneratedBoar
   const rules: Rule[] = orderedBlueprints.map((blueprint) => ({
     id: blueprint.id,
     label: blueprint.label,
-    validate: blueprint.predicate
+    validate: blueprint.predicate,
+    hint: blueprint.hint,
   }));
 
   const board: BoardSlot[] = rules.map((rule, index) => ({
@@ -337,13 +397,13 @@ export const generateBoard = (seed: string, countries: Country[]): GeneratedBoar
     ruleId: rule.id,
     solvedBy: undefined,
     correct: undefined,
-    countryCode: undefined
+    countryCode: undefined,
   }));
 
   return {
     rules,
     board,
     ruleMatches,
-    assignedMatches
+    assignedMatches,
   };
 };

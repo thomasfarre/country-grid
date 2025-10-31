@@ -10,7 +10,7 @@ export type GeneratedPool = {
 export const generatePool = (
   seed: string,
   countries: Country[],
-  generated: GeneratedBoard
+  generated: GeneratedBoard,
 ): GeneratedPool => {
   const { assignedMatches, ruleMatches } = generated;
   const validCodes = Object.values(assignedMatches);
@@ -32,10 +32,22 @@ export const generatePool = (
     throw new Error("Duplicate country assignment detected while building pool");
   }
 
+  const validCodeSet = new Set(validCountries.map((country) => country.code));
+
   const forbiddenCodes = new Set<string>();
   Object.values(ruleMatches).forEach((codes) => codes.forEach((code) => forbiddenCodes.add(code)));
 
-  const fillerCandidates = countries.filter((country) => !forbiddenCodes.has(country.code));
+  generated.rules.forEach((rule) => {
+    countries.forEach((country) => {
+      if (rule.validate(country)) {
+        forbiddenCodes.add(country.code);
+      }
+    });
+  });
+
+  const fillerCandidates = countries.filter(
+    (country) => !forbiddenCodes.has(country.code) && !validCodeSet.has(country.code),
+  );
   const REQUIRED_POOL_SIZE = 30;
   const fillerNeeded = REQUIRED_POOL_SIZE - validCountries.length;
 
@@ -49,6 +61,6 @@ export const generatePool = (
 
   return {
     pool,
-    validCountries
+    validCountries,
   };
 };

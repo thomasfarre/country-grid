@@ -8,10 +8,16 @@ export type Country = {
   flagSvgPath: string;
 };
 
+export type RuleHint = {
+  type: "flag";
+  code: string;
+};
+
 export type Rule = {
   id: string;
   label: string;
   validate: (country: Country) => boolean;
+  hint?: RuleHint;
 };
 
 export type BoardSlot = {

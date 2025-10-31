@@ -21,9 +21,9 @@ export const CurrentCountry = ({ country, onPass, disabled }: CurrentCountryProp
   return (
     <div className="flex flex-col gap-4 rounded-xl border border-slate-700 bg-slate-900/60 p-6">
       <div className="flex items-center gap-4">
-        <div className="flex h-16 w-16 items-center justify-center rounded-full border border-slate-700 bg-slate-800 text-2xl font-bold text-accent">
+        <span className="flex h-16 w-16 items-center justify-center rounded-full border border-slate-700 bg-slate-800 text-2xl font-bold text-accent">
           {country.name.slice(0, 1)}
-        </div>
+        </span>
         <div>
           <h2 className="text-2xl font-bold text-white">{country.name}</h2>
           <p className="text-sm text-slate-400">

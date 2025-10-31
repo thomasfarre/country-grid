@@ -117,6 +117,15 @@
     "flagSvgPath": "/flags/default.svg"
   },
   {
+    "code": "JP",
+    "name": "Japan",
+    "capital": "Tokyo",
+    "population": 125000000,
+    "gdp_usd": 4100000000000,
+    "continent": "Asia",
+    "flagSvgPath": "/flags/jp.svg"
+  },
+  {
     "code": "KR",
     "name": "South Korea",
     "capital": "Seoul",
@@ -285,6 +294,87 @@
     "population": 3500000,
     "gdp_usd": 220000000000,
     "continent": "South America",
+    "flagSvgPath": "/flags/default.svg"
+  },
+  {
+    "code": "NL",
+    "name": "Netherlands",
+    "capital": "Amsterdam",
+    "population": 17500000,
+    "gdp_usd": 990000000000,
+    "continent": "Europe",
+    "flagSvgPath": "/flags/default.svg"
+  },
+  {
+    "code": "PT",
+    "name": "Portugal",
+    "capital": "Lisbon",
+    "population": 10300000,
+    "gdp_usd": 255000000000,
+    "continent": "Europe",
+    "flagSvgPath": "/flags/default.svg"
+  },
+  {
+    "code": "IE",
+    "name": "Ireland",
+    "capital": "Dublin",
+    "population": 5000000,
+    "gdp_usd": 500000000000,
+    "continent": "Europe",
+    "flagSvgPath": "/flags/default.svg"
+  },
+  {
+    "code": "CH",
+    "name": "Switzerland",
+    "capital": "Bern",
+    "population": 8700000,
+    "gdp_usd": 800000000000,
+    "continent": "Europe",
+    "flagSvgPath": "/flags/default.svg"
+  },
+  {
+    "code": "PK",
+    "name": "Pakistan",
+    "capital": "Islamabad",
+    "population": 240000000,
+    "gdp_usd": 376000000000,
+    "continent": "Asia",
+    "flagSvgPath": "/flags/default.svg"
+  },
+  {
+    "code": "US",
+    "name": "United States",
+    "capital": "Washington D.C.",
+    "population": 331000000,
+    "gdp_usd": 25000000000000,
+    "continent": "North America",
+    "flagSvgPath": "/flags/us.svg"
+  },
+  {
+    "code": "BD",
+    "name": "Bangladesh",
+    "capital": "Dhaka",
+    "population": 170000000,
+    "gdp_usd": 460000000000,
+    "continent": "Asia",
+    "flagSvgPath": "/flags/default.svg"
+  },
+  {
+    "code": "PL",
+    "name": "Poland",
+    "capital": "Warsaw",
+    "population": 38000000,
+    "gdp_usd": 700000000000,
+    "continent": "Europe",
+    "flagSvgPath": "/flags/default.svg"
+  },
+  {
+    "code": "UA",
+    "name": "Ukraine",
+    "capital": "Kyiv",
+    "population": 41000000,
+    "gdp_usd": 200000000000,
+    "continent": "Europe",
     "flagSvgPath": "/flags/default.svg"
   }
 ]
