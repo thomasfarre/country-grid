@@ -2,7 +2,9 @@ import { test, expect } from "@playwright/test";
 import { generateBoard } from "../../lib/game/rules";
 import { COUNTRIES } from "../../lib/dataset";
 
-const getState = async (page: import("@playwright/test").Page) => {
+import type { Page } from "@playwright/test";
+
+const getState = async (page: Page) => {
   return page.evaluate(() => (window as unknown as { __countryGrid__?: { state: unknown } }).__countryGrid__?.state);
 };
 
