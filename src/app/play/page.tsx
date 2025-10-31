@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { Suspense, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useRoom } from "../../hooks/useRoom";
 import { useCountdown } from "../../hooks/useCountdown";
@@ -34,7 +34,7 @@ const computeNickname = (queryNickname: string | null): string => {
 const isActivePhase = (phase: string | undefined) =>
   phase === "countdown" || phase === "playing" || phase === "reveal";
 
-export default function PlayPage() {
+function PlayPageInner() {
   const searchParams = useSearchParams();
   const roomId = searchParams.get("room") ?? "quick";
   const queryNickname = searchParams.get("nickname");
@@ -128,5 +128,13 @@ export default function PlayPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function PlayPage() {
+  return (
+    <Suspense fallback={<div className="text-slate-300">Chargement…</div>}>
+      <PlayPageInner />
+    </Suspense>
   );
 }
