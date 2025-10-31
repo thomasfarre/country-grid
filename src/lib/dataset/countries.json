@@ -1,0 +1,290 @@
+[
+  {
+    "code": "BR",
+    "name": "Brazil",
+    "capital": "Brasilia",
+    "population": 212000000,
+    "gdp_usd": 1600000000000,
+    "continent": "South America",
+    "flagSvgPath": "/flags/br.svg"
+  },
+  {
+    "code": "AR",
+    "name": "Argentina",
+    "capital": "Buenos Aires",
+    "population": 46000000,
+    "gdp_usd": 530000000000,
+    "continent": "South America",
+    "flagSvgPath": "/flags/default.svg"
+  },
+  {
+    "code": "CL",
+    "name": "Chile",
+    "capital": "Santiago",
+    "population": 19000000,
+    "gdp_usd": 320000000000,
+    "continent": "South America",
+    "flagSvgPath": "/flags/default.svg"
+  },
+  {
+    "code": "CO",
+    "name": "Colombia",
+    "capital": "Bogotá",
+    "population": 51000000,
+    "gdp_usd": 330000000000,
+    "continent": "South America",
+    "flagSvgPath": "/flags/default.svg"
+  },
+  {
+    "code": "PE",
+    "name": "Peru",
+    "capital": "Lima",
+    "population": 34000000,
+    "gdp_usd": 240000000000,
+    "continent": "South America",
+    "flagSvgPath": "/flags/default.svg"
+  },
+  {
+    "code": "FR",
+    "name": "France",
+    "capital": "Paris",
+    "population": 67000000,
+    "gdp_usd": 2800000000000,
+    "continent": "Europe",
+    "flagSvgPath": "/flags/fr.svg"
+  },
+  {
+    "code": "DE",
+    "name": "Germany",
+    "capital": "Berlin",
+    "population": 84000000,
+    "gdp_usd": 3800000000000,
+    "continent": "Europe",
+    "flagSvgPath": "/flags/de.svg"
+  },
+  {
+    "code": "GB",
+    "name": "United Kingdom",
+    "capital": "London",
+    "population": 67000000,
+    "gdp_usd": 3100000000000,
+    "continent": "Europe",
+    "flagSvgPath": "/flags/gb.svg"
+  },
+  {
+    "code": "KE",
+    "name": "Kenya",
+    "capital": "Nairobi",
+    "population": 54000000,
+    "gdp_usd": 130000000000,
+    "continent": "Africa",
+    "flagSvgPath": "/flags/default.svg"
+  },
+  {
+    "code": "AU",
+    "name": "Australia",
+    "capital": "Canberra",
+    "population": 26000000,
+    "gdp_usd": 1700000000000,
+    "continent": "Oceania",
+    "flagSvgPath": "/flags/default.svg"
+  },
+  {
+    "code": "CA",
+    "name": "Canada",
+    "capital": "Ottawa",
+    "population": 39000000,
+    "gdp_usd": 2000000000000,
+    "continent": "North America",
+    "flagSvgPath": "/flags/ca.svg"
+  },
+  {
+    "code": "MX",
+    "name": "Mexico",
+    "capital": "Mexico City",
+    "population": 97000000,
+    "gdp_usd": 1300000000000,
+    "continent": "North America",
+    "flagSvgPath": "/flags/default.svg"
+  },
+  {
+    "code": "NZ",
+    "name": "New Zealand",
+    "capital": "Wellington",
+    "population": 5000000,
+    "gdp_usd": 210000000000,
+    "continent": "Oceania",
+    "flagSvgPath": "/flags/default.svg"
+  },
+  {
+    "code": "KR",
+    "name": "South Korea",
+    "capital": "Seoul",
+    "population": 52000000,
+    "gdp_usd": 1800000000000,
+    "continent": "Asia",
+    "flagSvgPath": "/flags/default.svg"
+  },
+  {
+    "code": "TH",
+    "name": "Thailand",
+    "capital": "Bangkok",
+    "population": 70000000,
+    "gdp_usd": 540000000000,
+    "continent": "Asia",
+    "flagSvgPath": "/flags/default.svg"
+  },
+  {
+    "code": "VN",
+    "name": "Vietnam",
+    "capital": "Hanoi",
+    "population": 96000000,
+    "gdp_usd": 410000000000,
+    "continent": "Asia",
+    "flagSvgPath": "/flags/default.svg"
+  },
+  {
+    "code": "PH",
+    "name": "Philippines",
+    "capital": "Manila",
+    "population": 99000000,
+    "gdp_usd": 400000000000,
+    "continent": "Asia",
+    "flagSvgPath": "/flags/default.svg"
+  },
+  {
+    "code": "MY",
+    "name": "Malaysia",
+    "capital": "Kuala Lumpur",
+    "population": 34000000,
+    "gdp_usd": 370000000000,
+    "continent": "Asia",
+    "flagSvgPath": "/flags/default.svg"
+  },
+  {
+    "code": "SA",
+    "name": "Saudi Arabia",
+    "capital": "Riyadh",
+    "population": 36000000,
+    "gdp_usd": 810000000000,
+    "continent": "Asia",
+    "flagSvgPath": "/flags/default.svg"
+  },
+  {
+    "code": "AE",
+    "name": "United Arab Emirates",
+    "capital": "Abu Dhabi",
+    "population": 10000000,
+    "gdp_usd": 430000000000,
+    "continent": "Asia",
+    "flagSvgPath": "/flags/default.svg"
+  },
+  {
+    "code": "EG",
+    "name": "Egypt",
+    "capital": "Cairo",
+    "population": 95000000,
+    "gdp_usd": 220000000000,
+    "continent": "Africa",
+    "flagSvgPath": "/flags/default.svg"
+  },
+  {
+    "code": "MA",
+    "name": "Morocco",
+    "capital": "Rabat",
+    "population": 37000000,
+    "gdp_usd": 210000000000,
+    "continent": "Africa",
+    "flagSvgPath": "/flags/default.svg"
+  },
+  {
+    "code": "GH",
+    "name": "Ghana",
+    "capital": "Accra",
+    "population": 33000000,
+    "gdp_usd": 230000000000,
+    "continent": "Africa",
+    "flagSvgPath": "/flags/default.svg"
+  },
+  {
+    "code": "ZA",
+    "name": "South Africa",
+    "capital": "Pretoria",
+    "population": 60000000,
+    "gdp_usd": 405000000000,
+    "continent": "Africa",
+    "flagSvgPath": "/flags/default.svg"
+  },
+  {
+    "code": "DZ",
+    "name": "Algeria",
+    "capital": "Algiers",
+    "population": 44000000,
+    "gdp_usd": 210000000000,
+    "continent": "Africa",
+    "flagSvgPath": "/flags/default.svg"
+  },
+  {
+    "code": "TR",
+    "name": "Turkey",
+    "capital": "Ankara",
+    "population": 86000000,
+    "gdp_usd": 900000000000,
+    "continent": "Asia",
+    "flagSvgPath": "/flags/default.svg"
+  },
+  {
+    "code": "IQ",
+    "name": "Iraq",
+    "capital": "Baghdad",
+    "population": 43000000,
+    "gdp_usd": 230000000000,
+    "continent": "Asia",
+    "flagSvgPath": "/flags/default.svg"
+  },
+  {
+    "code": "ET",
+    "name": "Ethiopia",
+    "capital": "Addis Ababa",
+    "population": 65000000,
+    "gdp_usd": 220000000000,
+    "continent": "Africa",
+    "flagSvgPath": "/flags/default.svg"
+  },
+  {
+    "code": "TZ",
+    "name": "Tanzania",
+    "capital": "Dodoma",
+    "population": 61000000,
+    "gdp_usd": 230000000000,
+    "continent": "Africa",
+    "flagSvgPath": "/flags/default.svg"
+  },
+  {
+    "code": "SL",
+    "name": "Sierra Leone",
+    "capital": "Freetown",
+    "population": 8000000,
+    "gdp_usd": 210000000000,
+    "continent": "Africa",
+    "flagSvgPath": "/flags/default.svg"
+  },
+  {
+    "code": "OM",
+    "name": "Oman",
+    "capital": "Muscat",
+    "population": 5000000,
+    "gdp_usd": 230000000000,
+    "continent": "Asia",
+    "flagSvgPath": "/flags/default.svg"
+  },
+  {
+    "code": "UY",
+    "name": "Uruguay",
+    "capital": "Montevideo",
+    "population": 3500000,
+    "gdp_usd": 220000000000,
+    "continent": "South America",
+    "flagSvgPath": "/flags/default.svg"
+  }
+]
