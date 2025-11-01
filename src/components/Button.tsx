@@ -11,9 +11,9 @@ export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 const variantStyles: Record<NonNullable<ButtonProps["variant"]>, string> = {
-  primary: "bg-primary text-white hover:bg-blue-700",
-  secondary: "bg-slate-700 text-white hover:bg-slate-600",
-  ghost: "bg-transparent text-white hover:bg-slate-800/50"
+  primary: "bg-blue-600 text-white hover:bg-blue-500",
+  secondary: "bg-white text-slate-900 border border-slate-300 hover:bg-slate-100",
+  ghost: "bg-transparent text-slate-600 hover:bg-slate-100",
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -25,7 +25,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       />
     );
-  }
+  },
 );
 
 Button.displayName = "Button";

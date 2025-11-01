@@ -385,12 +385,21 @@ export const generateBoard = (seed: string, countries: Country[]): GeneratedBoar
   // Build Rule objects keeping validation deterministic
   const orderedBlueprints = rng.shuffle([...selectedBlueprints]);
 
-  const rules: Rule[] = orderedBlueprints.map((blueprint) => ({
-    id: blueprint.id,
-    label: blueprint.label,
-    validate: blueprint.predicate,
-    hint: blueprint.hint,
-  }));
+  const rules: Rule[] = orderedBlueprints.map((blueprint) => {
+    let label = blueprint.label;
+    if (blueprint.id.startsWith("capital-")) {
+      label = label.replace(/^Capitale\s*=\s*/i, "");
+    }
+    if (blueprint.id.startsWith("flag-")) {
+      label = "";
+    }
+    return {
+      id: blueprint.id,
+      label,
+      validate: blueprint.predicate,
+      hint: blueprint.hint,
+    };
+  });
 
   const board: BoardSlot[] = rules.map((rule, index) => ({
     index,

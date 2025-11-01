@@ -2,54 +2,52 @@
 
 import clsx from "clsx";
 import ReactCountryFlag from "react-country-flag";
-import type { BoardSlot, Player, Rule } from "../lib/game/types";
+import type { BoardSlot, Rule, Country } from "../lib/game/types";
+import { COUNTRIES } from "../lib/dataset";
 
 export type GameBoardProps = {
   board: BoardSlot[];
   rules: Rule[];
-  players: Player[];
   onSelect: (slotIndex: number) => void;
   disabled?: boolean;
   showReveal?: boolean;
 };
 
 const getRule = (rules: Rule[], ruleId: string) => rules.find((rule) => rule.id === ruleId);
-
-const playerNickname = (players: Player[], id?: string) =>
-  players.find((player) => player.id === id)?.nickname;
+const COUNTRY_INDEX = COUNTRIES.reduce<Record<string, Country>>((acc, country) => {
+  acc[country.code] = country;
+  return acc;
+}, {});
 
 export const GameBoard = ({
   board,
   rules,
-  players,
   onSelect,
   disabled,
   showReveal = false,
 }: GameBoardProps) => {
   return (
-    <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
       {board.map((slot) => {
         const rule = getRule(rules, slot.ruleId);
-        const ruleLabel = rule?.label ?? "?";
+        const ruleLabel = rule?.label?.trim() ?? "";
         const ruleHint = rule?.hint;
-        const solvedNickname = playerNickname(players, slot.solvedBy);
-        const isSolved = Boolean(solvedNickname);
+        const country = slot.countryCode ? COUNTRY_INDEX[slot.countryCode] : undefined;
+        const countryLabel = country?.name ?? slot.countryCode ?? "-";
+        const isSolved = Boolean(slot.solvedBy);
         const isReveal = showReveal && slot.correct !== undefined;
         const statusLabel = (() => {
           if (!isSolved) return "Disponible";
-          if (!isReveal) return `Attribué à ${solvedNickname}`;
-          const codeSuffix = slot.countryCode ? ` (${slot.countryCode})` : "";
-          return slot.correct
-            ? `✅ ${solvedNickname}${codeSuffix}`
-            : `❌ ${solvedNickname}${codeSuffix}`;
+          if (!isReveal) return `Pays placé : ${countryLabel}`;
+          return slot.correct ? `✅ ${countryLabel}` : `❌ ${countryLabel}`;
         })();
         const statusColor = !isSolved
           ? "text-slate-400"
           : isReveal
             ? slot.correct
-              ? "text-green-400"
-              : "text-red-400"
-            : "text-slate-200";
+              ? "text-emerald-600"
+              : "text-red-500"
+            : "text-slate-500";
         return (
           <button
             key={slot.index}
@@ -57,20 +55,24 @@ export const GameBoard = ({
             disabled={disabled || isSolved}
             onClick={() => onSelect(slot.index)}
             className={clsx(
-              "flex h-32 flex-col justify-between rounded-lg border border-slate-700 p-4 text-left transition",
+              "flex h-40 flex-col justify-between rounded-xl border border-slate-200 bg-white p-5 text-left shadow-sm transition",
               disabled && "cursor-not-allowed opacity-60",
-              !disabled && !isSolved && "hover:border-accent hover:bg-slate-800/50",
-              isReveal && slot.correct === false && "border-red-500 bg-red-900/10",
-              isReveal && slot.correct === true && "border-green-500 bg-green-900/20",
-              !isReveal && isSolved && "border-slate-500 bg-slate-900/50",
+              !disabled && !isSolved && "hover:shadow-md",
+              isReveal && slot.correct === false && "border-red-200 bg-red-50",
+              isReveal && slot.correct === true && "border-emerald-200 bg-emerald-50",
+              !isReveal && isSolved && "border-slate-200 bg-slate-100",
             )}
             data-rule-id={slot.ruleId}
             data-slot-index={slot.index}
           >
-            <div className="flex items-start justify-between">
-              <span className="text-sm font-semibold text-accent">Case {slot.index + 1}</span>
+            <div className="flex items-center justify-between gap-2">
+              {ruleLabel.length > 0 ? (
+                <p className="text-base font-semibold text-slate-900">{ruleLabel}</p>
+              ) : (
+                <span className="text-base font-semibold text-slate-900">&nbsp;</span>
+              )}
               {ruleHint?.type === "flag" ? (
-                <span className="ml-2 h-8 w-12 overflow-hidden rounded border border-slate-600">
+                <span className="h-10 w-16 overflow-hidden rounded border border-slate-200">
                   <ReactCountryFlag
                     countryCode={ruleHint.code}
                     svg
@@ -80,7 +82,6 @@ export const GameBoard = ({
                 </span>
               ) : null}
             </div>
-            <p className="text-base font-medium text-white">{ruleLabel}</p>
             <span className={clsx("text-xs", statusColor)}>{statusLabel}</span>
           </button>
         );

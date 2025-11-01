@@ -30,11 +30,9 @@ export const Matchmaking = () => {
 
   return (
     <div className="flex w-full max-w-md flex-col gap-3">
-      <label className="text-left text-sm font-medium text-slate-300">
-        Choisis ton pseudo
-      </label>
+      <label className="text-left text-sm font-medium text-slate-600">Choisis ton pseudo</label>
       <input
-        className="w-full rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-base text-white focus:border-accent focus:outline-none"
+        className="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-base text-slate-900 focus:border-blue-500 focus:outline-none"
         placeholder="GeoMaster"
         value={nickname}
         onChange={(event) => setNickname(event.target.value)}
